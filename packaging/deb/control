@@ -1,0 +1,11 @@
+Package: fluxion
+Version: 0.1.0
+Section: net
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.11), python3-pip
+Maintainer: Fluxion Contributors <fluxion@example.com>
+Description: The Intelligent Network Command Engine
+ Fluxion is a next-generation CLI network transport engine
+ with HTTP/2, HTTP/3 QUIC, parallel downloads, adaptive
+ concurrency, and a Sci-Fi Quantum Command HUD interface.

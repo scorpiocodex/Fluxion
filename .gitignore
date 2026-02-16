@@ -1,0 +1,95 @@
+# ──────────────────────────────────────────────────
+# FLUXION — .gitignore
+# ──────────────────────────────────────────────────
+
+# ── Python ───────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.pdb
+
+# ── Distribution / Build ────────────────────────
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+*.whl
+*.tar.gz
+sdist/
+wheels/
+MANIFEST
+
+# ── Virtual Environments ────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ── Testing / Coverage ──────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# ── Type Checking / Linting ─────────────────────
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# ── IDE / Editor ────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+.spyderproject
+.spyproject
+
+# ── OS Files ────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── Environment / Secrets ───────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+
+# ── Logs ────────────────────────────────────────
+*.log
+logs/
+
+# ── Fluxion Runtime ─────────────────────────────
+.fluxion/
+*.part
+*.flx.tmp
+
+# ── Lock Files (uv / pip) ──────────────────────
+uv.lock
+
+# ── Misc ────────────────────────────────────────
+*.bak
+*.orig
+*.rej
+.cache/
