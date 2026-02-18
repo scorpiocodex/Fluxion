@@ -581,6 +581,19 @@ def version() -> None:
     console.print(f"[{QUANTUM_BLUE}]{icon} Fluxion v{__version__}[/{QUANTUM_BLUE}] [{QUANTUM_DIM}][{__codename__}][/{QUANTUM_DIM}]")
 
 
+@app.command(name="help")
+def help_cmd(
+    command_name: Optional[str] = typer.Argument(
+        None,
+        help="Command to show detailed reference for (e.g. fetch, probe, bench)",
+    ),
+) -> None:
+    """[bright_cyan]Display the Fluxion command intelligence database.[/bright_cyan]"""
+    from fluxion.hud.panels import render_help_panel
+
+    console.print(render_help_panel(command_name))
+
+
 def main() -> None:
     """Entry point."""
     app()

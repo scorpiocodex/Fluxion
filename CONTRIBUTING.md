@@ -1,113 +1,129 @@
 # Contributing to Fluxion
 
-Thank you for your interest in contributing to **Fluxion**. Every contribution strengthens the engine.
+Thank you for your interest in contributing to **Fluxion — The Intelligent Network Command Engine**.
 
 ## Getting Started
 
-### 1. Fork & Clone
+### Prerequisites
+
+- Python 3.11+
+- Git
+
+### Setup
 
 ```bash
-git clone https://github.com/<your-username>/fluxion.git
-cd fluxion
-```
+# Fork and clone
+git clone https://github.com/scorpiocodex/Fluxion.git
+cd Fluxion
 
-### 2. Set Up Development Environment
-
-```bash
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+# Install in editable dev mode (includes all dev dependencies)
 pip install -e ".[dev]"
-```
 
-### 3. Install Pre-commit Hooks
-
-```bash
-pip install pre-commit
-pre-commit install
-```
-
-### 4. Verify Setup
-
-```bash
+# Verify installation
+fluxion version
 fluxion doctor
-pytest
 ```
 
 ## Development Workflow
 
-### Branching
-
-- `main` — stable release branch
-- `dev` — active development
-- Feature branches: `feat/<description>`
-- Bug fixes: `fix/<description>`
-
-### Code Quality
-
-All code must pass before merge:
+### Running Tests
 
 ```bash
-ruff check fluxion/ tests/        # Linting
-black --check fluxion/ tests/     # Formatting
-mypy fluxion/ --ignore-missing-imports  # Type checking
-pytest --cov=fluxion              # Tests (55%+ coverage required)
+# All tests with coverage
+pytest
+
+# Specific module
+pytest tests/unit/test_cli.py -v
+
+# Without coverage (faster)
+pytest --no-cov -q
 ```
 
-### Writing Tests
+### Linting & Formatting
 
-- Place unit tests in `tests/unit/`
-- Place integration tests in `tests/integration/`
-- Use `pytest-asyncio` for async tests (auto mode enabled)
-- Use `respx` for HTTP request mocking
-- Aim to cover both success and error paths
+```bash
+# Lint with ruff
+ruff check fluxion/ tests/
 
-### Commit Messages
+# Auto-fix lint issues
+ruff check --fix fluxion/ tests/
 
-Use clear, descriptive commit messages:
+# Format with black
+black fluxion/ tests/
 
-```
-feat: add HTTP/3 fallback for QUIC connection failures
-fix: resolve chunker stall on zero-byte range response
-docs: update plugin creation guide
-test: add coverage for TLS cert pinning
-refactor: simplify retry classifier backoff logic
+# Type check with mypy
+mypy fluxion/ --ignore-missing-imports
 ```
 
-## What to Contribute
+### Running All Checks (matches CI)
 
-### High-Impact Areas
+```bash
+ruff check fluxion/ tests/ && black --check fluxion/ tests/ && mypy fluxion/ --ignore-missing-imports && pytest
+```
 
-- **Protocol plugins** — Add support for new protocols (S3, WebDAV, BitTorrent, IPFS)
-- **Performance** — Optimize the adaptive chunker, scheduler, or bandwidth estimator
-- **Platform support** — Improve detection and compatibility for new OS/distro combinations
-- **Security** — Strengthen TLS inspection, add OCSP stapling, certificate transparency checks
-- **Tests** — Increase coverage, add edge case tests, improve integration tests
+## Code Style
 
-### Plugin Development
+- **Formatter**: Black (100-char line length)
+- **Linter**: Ruff (`E, F, W, I, N, UP, B, A, SIM, TCH` rules)
+- **Type checker**: mypy (strict mode)
+- **Target Python**: 3.11+
+- **Async**: All I/O-bound operations must be `async`/`await`
+- **Models**: Use Pydantic for all data structures
+- **UI**: Use Rich for all terminal output
 
-See the [Plugin System](README.md#-plugins) section of the README for the plugin architecture, base classes, and conventions.
+## Project Structure
+
+```
+fluxion/
+├── cli/app.py          # CLI commands — add new commands here
+├── core/engine.py      # Download engine — core transport logic
+├── hud/panels.py       # UI panels — add new panel renderers here
+├── performance/        # Adaptive transport algorithms
+├── security/           # TLS, integrity, proxy
+├── stealth/            # Browser impersonation, cookies
+├── protocols/          # FTP, SFTP, QUIC handlers
+├── plugins/            # Plugin system
+├── installer/          # Init, config, doctor
+└── platform/           # OS/arch detection
+```
+
+## Adding a New Command
+
+1. Add a new `@app.command()` function in `fluxion/cli/app.py`
+2. Add command data to `_HELP_CATEGORIES` and `_COMMAND_DETAILS` in `fluxion/hud/panels.py`
+3. Add tests in `tests/unit/test_cli.py`
+4. Update `README.md` with command documentation
+
+## Adding a New Protocol
+
+1. Create `fluxion/protocols/<protocol>.py` implementing async download
+2. Register it in `fluxion/core/engine.py`
+3. Add tests in `tests/unit/`
+4. Document in README
 
 ## Pull Request Guidelines
 
-1. Create a feature branch from `dev`
-2. Write tests for new functionality
-3. Ensure all checks pass (`ruff`, `black`, `mypy`, `pytest`)
-4. Write a clear PR description explaining the **what** and **why**
-5. Keep PRs focused — one feature or fix per PR
+1. Fork the repository and create a feature branch
+2. Write tests for your changes (maintain 55%+ coverage)
+3. Ensure all linters and type checks pass
+4. Update documentation if needed
+5. Submit a pull request with a clear description
 
-## Reporting Issues
+## Bug Reports
 
-When filing an issue, include:
-
+Use the [GitHub Issues](https://github.com/scorpiocodex/Fluxion/issues) page. Include:
+- Python version (`python --version`)
 - Fluxion version (`fluxion version`)
-- OS and Python version (`fluxion doctor --json`)
-- Steps to reproduce
-- Expected vs. actual behavior
-- Relevant error output or logs
+- Platform info (`fluxion doctor --json`)
+- Minimal reproduction steps
+- Full error output with `--trace` flag
 
-## Code of Conduct
+## Feature Requests
 
-Be respectful, constructive, and collaborative. We're all building something better.
+Open a [GitHub Issue](https://github.com/scorpiocodex/Fluxion/issues) with:
+- Use case description
+- Expected behavior
+- Comparison with existing tools (if applicable)
 
 ## License
 

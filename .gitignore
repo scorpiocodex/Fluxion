@@ -1,95 +1,80 @@
-# ──────────────────────────────────────────────────
-# FLUXION — .gitignore
-# ──────────────────────────────────────────────────
-
-# ── Python ───────────────────────────────────────
+# ── Python ────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 *.pyd
-*.pdb
 
-# ── Distribution / Build ────────────────────────
-dist/
+# ── Distribution / Packaging ──────────────────────────────────────────────
+.Python
 build/
+dist/
 *.egg-info/
 *.egg
-.eggs/
-*.whl
-*.tar.gz
-sdist/
-wheels/
 MANIFEST
+wheels/
+*.whl
+pip-wheel-metadata/
+share/python-wheels/
 
-# ── Virtual Environments ────────────────────────
-.venv/
-venv/
+# ── Virtual Environments ───────────────────────────────────────────────────
+.env
+.venv
 env/
+venv/
 ENV/
+env.bak/
+venv.bak/
 .python-version
 
-# ── Testing / Coverage ──────────────────────────
+# ── Testing & Coverage ────────────────────────────────────────────────────
 .pytest_cache/
 .coverage
 .coverage.*
 coverage.xml
 htmlcov/
 .tox/
-.nox/
+nosetests.xml
+junit*.xml
 
-# ── Type Checking / Linting ─────────────────────
+# ── Type Checkers ─────────────────────────────────────────────────────────
 .mypy_cache/
-.ruff_cache/
 .dmypy.json
 dmypy.json
-.pytype/
+.pyright/
 
-# ── IDE / Editor ────────────────────────────────
-.idea/
+# ── Linters ───────────────────────────────────────────────────────────────
+.ruff_cache/
+
+# ── IDEs & Editors ────────────────────────────────────────────────────────
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
-.project
-.settings/
-*.sublime-project
-*.sublime-workspace
-.spyderproject
-.spyproject
 
-# ── OS Files ────────────────────────────────────
-.DS_Store
-.DS_Store?
-._*
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# ── Environment / Secrets ───────────────────────
-.env
-.env.*
-!.env.example
+# ── Secrets / Config ──────────────────────────────────────────────────────
+.env.local
+.env.*.local
 *.pem
 *.key
-*.crt
 *.p12
+secrets/
 
-# ── Logs ────────────────────────────────────────
+# ── Fluxion Runtime ───────────────────────────────────────────────────────
+*.fluxion-tmp
+
+# ── OS Artifacts ──────────────────────────────────────────────────────────
+.DS_Store
+._*
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────────────────────────────────────
 *.log
 logs/
 
-# ── Fluxion Runtime ─────────────────────────────
-.fluxion/
-*.part
-*.flx.tmp
-
-# ── Lock Files (uv / pip) ──────────────────────
-uv.lock
-
-# ── Misc ────────────────────────────────────────
-*.bak
-*.orig
-*.rej
-.cache/
+# ── Docs Build ────────────────────────────────────────────────────────────
+docs/_build/
+site/

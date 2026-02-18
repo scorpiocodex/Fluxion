@@ -41,31 +41,54 @@ All from your terminal.
 ## ⚡ Quick Start
 
 ```bash
-pip install fluxion        # Install
-fluxion init               # Initialize environment
-fluxion fetch <url>        # Download anything
+# Install from GitHub
+pip install git+https://github.com/scorpiocodex/Fluxion.git
+
+# Initialize and run
+fluxion init
+fluxion fetch <url>
 ```
 
 <br>
 
 ## 📦 Installation
 
-### From PyPI
+### From GitHub (Recommended)
 
 ```bash
-# Standard install
-pip install fluxion
+# Standard install via pip
+pip install git+https://github.com/scorpiocodex/Fluxion.git
 
 # With browser cookie extraction & stealth capabilities
-pip install 'fluxion[stealth]'
+pip install "git+https://github.com/scorpiocodex/Fluxion.git#egg=fluxion[stealth]"
 
-# Development (includes linters, test suite, type checking)
-pip install 'fluxion[dev]'
+# Isolated install via pipx (no dependency conflicts)
+pipx install git+https://github.com/scorpiocodex/Fluxion.git
 ```
 
-### Run as Module
+### Clone and Install Locally
 
 ```bash
+# Clone the repository
+git clone https://github.com/scorpiocodex/Fluxion.git
+cd Fluxion
+
+# Install in editable/development mode
+pip install -e ".[dev]"
+
+# Or standard install from local clone
+pip install .
+
+# With stealth extras
+pip install ".[stealth]"
+```
+
+### Run as Module (no install required)
+
+```bash
+git clone https://github.com/scorpiocodex/Fluxion.git
+cd Fluxion
+pip install -e .
 python -m fluxion
 ```
 
@@ -89,7 +112,31 @@ fluxion doctor   # Run full diagnostic check
 
 ## 🛸 Commands
 
-Fluxion ships with **11 built-in commands**, each designed for a specific network operation.
+Fluxion ships with **12 built-in commands**, each designed for a specific network operation.
+
+<br>
+
+### `help` — Command Intelligence Database
+
+The built-in sci-fi themed help system. Displays all commands organized by category with full reference documentation.
+
+```bash
+fluxion help                  # Full command database
+fluxion help fetch            # Detailed reference for fetch
+fluxion help probe            # Options and examples for probe
+```
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║  ⟡  FLUXION  ─  QUANTUM COMMAND INTELLIGENCE DATABASE           ║
+║     Intelligent Network Command Engine  ◆  v1.0.0 [Quantum]    ║
+╚══════════════════════════════════════════════════════════════════╝
+╭─ ▶ TRANSPORT LAYER ────────────────────────────────────────────╮
+│   fetch    Download files with adaptive multi-stream transport  │
+│   stream   Pipe URL content directly to stdout                 │
+│   mirror   Race multiple mirrors — download from fastest        │
+╰────────────────────────────────────────────────────────────────╯
+```
 
 <br>
 
@@ -496,12 +543,12 @@ def create_plugin() -> S3Plugin:
 ```
 fluxion/
 ├── cli/
-│   └── app.py                 # Typer CLI — 11 commands
+│   └── app.py                 # Typer CLI — 12 commands
 ├── core/
 │   └── engine.py              # FluxionEngine — probe, bench, fetch, stream, mirror
 ├── hud/
 │   ├── layout.py              # Terminal detection, responsive layout modes
-│   ├── panels.py              # Rich panel renderers (header, progress, probe, etc.)
+│   ├── panels.py              # Rich panel renderers (header, progress, probe, help, etc.)
 │   └── renderer.py            # Live display lifecycle (Rich Live context)
 ├── performance/
 │   ├── bandwidth.py           # EMA sliding-window bandwidth estimator
@@ -629,6 +676,27 @@ pytest tests/unit/test_engine.py
 
 <br>
 
+## 🤝 Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+```bash
+# Fork and clone
+git clone https://github.com/scorpiocodex/Fluxion.git
+cd Fluxion
+
+# Install in dev mode
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Lint
+ruff check fluxion/ tests/
+```
+
+<br>
+
 ## 📝 License
 
 MIT License — see [LICENSE](LICENSE) for details.
@@ -643,6 +711,6 @@ MIT License — see [LICENSE](LICENSE) for details.
  ⟡ Built for those who demand more from their terminal.
 ```
 
-**Fluxion** · v1.0.0 [Quantum] · MIT License
+**Fluxion** · v1.0.0 [Quantum] · MIT License · [ScorpioCodeX](https://github.com/scorpiocodex)
 
 </div>

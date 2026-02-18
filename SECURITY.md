@@ -8,40 +8,56 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in Fluxion, **do not open a public issue**.
+**Please do not report security vulnerabilities through public GitHub Issues.**
 
-Instead, please report it responsibly:
+Report security vulnerabilities privately via email:
 
-1. **Email**: Send details to the maintainers via the repository's security advisory feature on GitHub
-2. **GitHub Security Advisory**: Use the "Report a vulnerability" button under the Security tab
+**scorpiocodex0@gmail.com**
 
-### What to Include
-
-- Description of the vulnerability
+Include:
+- A description of the vulnerability
 - Steps to reproduce
-- Potential impact assessment
-- Suggested fix (if any)
+- Potential impact
+- Any suggested fixes (optional)
 
-### Response Timeline
-
-- **Acknowledgment**: Within 48 hours
-- **Initial assessment**: Within 7 days
-- **Patch release**: As soon as a fix is verified
+You will receive an acknowledgment within **48 hours** and a full response within **7 days**.
 
 ## Security Features
 
-Fluxion includes built-in security capabilities:
+Fluxion implements the following security controls:
 
-- **TLS Deep Inspection** — Certificate chain validation, cipher suite analysis, expiry monitoring
-- **Certificate Pinning** — SHA-256 fingerprint pinning per hostname
-- **Integrity Verification** — SHA-256 checksum validation for all downloads
-- **Secure Temp Files** — Restricted permissions (`0600`), automatic cleanup
-- **No Shell Injection** — All external commands use parameterized execution
-- **Proxy Transparency** — Explicit proxy detection and reporting
+### TLS / Certificate Security
 
-## Best Practices for Users
+- **TLS Deep Inspection**: Raw socket-level analysis independent of the HTTP client
+- **Certificate Pinning**: SHA-256 fingerprint verification per hostname via TLSInspector
+- **Expiry Monitoring**: Automatic warnings when certificates expire within 30 days
+- **Default TLS Verification**: TLS is verified by default; disabled only with explicit --no-verify
+- **CA Bundle**: Uses certifi for trusted CA certificates
 
-- Always use `--sha256` when downloading critical files
-- Use `fluxion secure <url>` to inspect TLS before trusting endpoints
-- Keep Fluxion updated to the latest version
-- Review proxy settings with `fluxion doctor`
+### File Integrity
+
+- **SHA-256 Verification**: Incremental hashing during transfer via IntegrityVerifier
+- **Secure Temp Files**: SecureTempFile context manager sets chmod 0o600 and auto-cleans on exit
+- **Atomic Writes**: Temporary files are used during download; moved atomically on completion
+
+### Network Security
+
+- **Proxy Detection**: Reads HTTP_PROXY, HTTPS_PROXY, NO_PROXY environment variables
+- **Custom Proxy Support**: Explicit --proxy flag for controlled routing
+- **Retry Safety**: RetryClassifier distinguishes retryable from fatal errors
+
+### Cookie & Credential Handling
+
+- **In-memory only**: Cookies are never persisted to disk by Fluxion itself
+- **Browser cookie extraction**: Requires explicit --browser-cookies flag (opt-in)
+- **Stealth profiles**: Browser impersonation is explicit and user-controlled
+
+## Known Security Considerations
+
+- **--no-verify flag**: Disables TLS certificate verification entirely. Never use with sensitive data.
+- **Browser cookie extraction** (--browser-cookies): Requires fluxion[stealth] and accesses your browser's local cookie store. Use with caution.
+- **Plugin system**: Plugins run with full process privileges. Only install plugins from trusted sources.
+
+## Responsible Disclosure
+
+We follow responsible disclosure. After a fix is released, we will publicly acknowledge the reporter (if they wish) and publish a security advisory.

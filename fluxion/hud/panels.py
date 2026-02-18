@@ -424,3 +424,504 @@ def _phase_style(phase: str) -> str:
         "ERROR": f"bold {QUANTUM_RED}",
     }
     return styles.get(phase, "white")
+
+
+# ── Help Panel ─────────────────────────────────────────────────────────────
+
+_HELP_CATEGORIES: list[dict[str, object]] = [
+    {
+        "name": "TRANSPORT LAYER",
+        "icon_u": "▶",
+        "icon_a": ">",
+        "style": QUANTUM_BLUE,
+        "commands": [
+            ("fetch",  "Download files with adaptive multi-stream parallel transport"),
+            ("stream", "Pipe URL content directly to stdout"),
+            ("mirror", "Race multiple mirrors — download from the fastest endpoint"),
+        ],
+    },
+    {
+        "name": "NETWORK INTELLIGENCE",
+        "icon_u": "◇",
+        "icon_a": "o",
+        "style": QUANTUM_GREEN,
+        "commands": [
+            ("probe", "Deep network reconnaissance — protocol, TLS, latency, server fingerprint"),
+            ("bench", "Statistical latency and throughput benchmarking with percentile analysis"),
+        ],
+    },
+    {
+        "name": "SECURITY",
+        "icon_u": "▣",
+        "icon_a": "#",
+        "style": QUANTUM_YELLOW,
+        "commands": [
+            ("secure", "TLS deep inspection — cert chain, ciphers, fingerprint, expiry analysis"),
+        ],
+    },
+    {
+        "name": "SYSTEM CONTROL",
+        "icon_u": "\u27d0",
+        "icon_a": "=",
+        "style": QUANTUM_MAGENTA,
+        "commands": [
+            ("init",    "Initialize environment — detect OS, install deps, verify TLS"),
+            ("doctor",  "Diagnose installation health and all dependency statuses"),
+            ("config",  "View or modify Fluxion runtime configuration"),
+            ("plugin",  "Manage protocol and command extension plugins"),
+            ("version", "Display version, codename, and build information"),
+            ("help",    "Display this command intelligence database"),
+        ],
+    },
+]
+
+_COMMAND_DETAILS: dict[str, dict[str, object]] = {
+    "fetch": {
+        "category": "TRANSPORT LAYER",
+        "style": QUANTUM_BLUE,
+        "description": (
+            "Download files using adaptive multi-stream parallel transport with automatic "
+            "protocol negotiation, HTTP range-request resume support, browser impersonation, "
+            "and real-time Quantum HUD telemetry."
+        ),
+        "usage": "fluxion fetch <url> [OPTIONS]",
+        "examples": [
+            "fluxion fetch https://example.com/archive.tar.gz",
+            "fluxion fetch https://cdn.example.com/file.zip -o ./file.zip -c 16",
+            "fluxion fetch https://cdn.example.com/file.zip --sha256 e3b0c442...",
+            "fluxion fetch https://protected.site/asset.bin --browser-profile chrome",
+            'fluxion fetch https://api.example.com/export -H "Authorization: Bearer tok"',
+        ],
+        "options": [
+            ("-o, --output PATH",          "Output file path (auto-derived from URL if omitted)"),
+            ("-c, --connections INT",       "Max parallel connections (default: 8, max: 32)"),
+            ("--no-resume",                "Disable HTTP range-request resume support"),
+            ("--no-verify",                "Skip TLS certificate verification"),
+            ("--timeout FLOAT",            "Request timeout in seconds (default: 30.0)"),
+            ("--proxy URL",                "Proxy URL (e.g. socks5://localhost:1080)"),
+            ("--sha256 HASH",              "Expected SHA-256 checksum — aborts on mismatch"),
+            ("-H, --header NAME:VALUE",    "Custom header string, repeatable"),
+            ("--cookie NAME=VALUE",        "Inline cookie string, repeatable"),
+            ("--cookie-file PATH",         "Netscape or JSON cookie file"),
+            ("--browser-cookies BROWSER",  "Import cookies: chrome / firefox / edge / safari"),
+            ("--browser-profile PROFILE",  "Impersonate browser: chrome / firefox / edge / safari"),
+            ("--referer URL",              "Referer URL header value"),
+            ("--minimal",                  "Single-line in-place progress display"),
+            ("--plain",                    "No styling — pipe-safe plain text output"),
+            ("--json",                     "Machine-readable JSON result output"),
+            ("--quiet",                    "Suppress all output (exit code only)"),
+            ("--trace",                    "Show Python tracebacks on error"),
+        ],
+    },
+    "stream": {
+        "category": "TRANSPORT LAYER",
+        "style": QUANTUM_BLUE,
+        "description": (
+            "Stream raw URL content directly to stdout. Optimized for piping into other tools — "
+            "no intermediate files, no buffering overhead. Supports full stealth headers."
+        ),
+        "usage": "fluxion stream <url> [OPTIONS]",
+        "examples": [
+            "fluxion stream https://api.example.com/feed.json | jq '.data[]'",
+            "fluxion stream https://logs.example.com/latest.log | grep ERROR",
+            'fluxion stream https://api.example.com/data -H "X-API-Key: secret"',
+        ],
+        "options": [
+            ("--no-verify",                "Skip TLS certificate verification"),
+            ("-H, --header NAME:VALUE",    "Custom header string, repeatable"),
+            ("--cookie NAME=VALUE",        "Inline cookie string, repeatable"),
+            ("--browser-profile PROFILE",  "Browser impersonation profile"),
+            ("--referer URL",              "Referer URL header value"),
+            ("--trace",                    "Show Python tracebacks on error"),
+        ],
+    },
+    "mirror": {
+        "category": "TRANSPORT LAYER",
+        "style": QUANTUM_BLUE,
+        "description": (
+            "Probe multiple mirror URLs in parallel, select the lowest-latency endpoint, "
+            "and download from the optimal source. Ideal for ISO downloads and CDN selection."
+        ),
+        "usage": "fluxion mirror <url1> <url2> ... [OPTIONS]",
+        "examples": [
+            "fluxion mirror https://mirror1.example.com/file.iso https://mirror2.example.com/file.iso -o file.iso",
+            "fluxion mirror https://cdn1.example.com/pkg https://cdn2.example.com/pkg",
+        ],
+        "options": [
+            ("-o, --output PATH",  "Output file path"),
+            ("--json",             "JSON output"),
+            ("--quiet",            "Suppress all output"),
+            ("--trace",            "Show Python tracebacks on error"),
+        ],
+    },
+    "probe": {
+        "category": "NETWORK INTELLIGENCE",
+        "style": QUANTUM_GREEN,
+        "description": (
+            "Perform a deep network reconnaissance probe on any URL. Returns HTTP protocol version, "
+            "TLS state, server fingerprint, latency measurements, range support, "
+            "content type and size, and full certificate details."
+        ),
+        "usage": "fluxion probe <url> [OPTIONS]",
+        "examples": [
+            "fluxion probe https://cdn.example.com/asset.bin",
+            "fluxion probe https://api.example.com --json | jq '.tls_version'",
+        ],
+        "options": [
+            ("--no-verify",  "Skip TLS certificate verification"),
+            ("--json",       "JSON output"),
+            ("--quiet",      "Suppress all output"),
+            ("--trace",      "Show Python tracebacks on error"),
+        ],
+    },
+    "bench": {
+        "category": "NETWORK INTELLIGENCE",
+        "style": QUANTUM_GREEN,
+        "description": (
+            "Measure real-world network performance with full statistical analysis. "
+            "Reports min/max/avg latency, P50/P95/P99 percentiles, jitter, "
+            "stability score (0.0\u20131.0), and throughput in Mbps/Gbps."
+        ),
+        "usage": "fluxion bench <url> [OPTIONS]",
+        "examples": [
+            "fluxion bench https://cdn.example.com/test-payload -n 20",
+            "fluxion bench https://api.example.com --json",
+        ],
+        "options": [
+            ("-n, --iterations INT",  "Number of benchmark requests (default: 10)"),
+            ("--no-verify",           "Skip TLS certificate verification"),
+            ("--json",                "JSON output"),
+            ("--quiet",               "Suppress all output"),
+            ("--trace",               "Show Python tracebacks on error"),
+        ],
+    },
+    "secure": {
+        "category": "SECURITY",
+        "style": QUANTUM_YELLOW,
+        "description": (
+            "Perform TLS deep inspection on any HTTPS endpoint. Extracts the full certificate "
+            "chain, cipher suite, TLS version, subject and issuer details, validity window, "
+            "SHA-256 fingerprint, and Subject Alternative Names (SANs)."
+        ),
+        "usage": "fluxion secure <url> [OPTIONS]",
+        "examples": [
+            "fluxion secure https://bank.example.com",
+            "fluxion secure https://api.example.com --json",
+        ],
+        "options": [
+            ("--json",   "JSON output"),
+            ("--trace",  "Show Python tracebacks on error"),
+        ],
+    },
+    "init": {
+        "category": "SYSTEM CONTROL",
+        "style": QUANTUM_MAGENTA,
+        "description": (
+            "Initialize the Fluxion environment. Detects OS and distribution, installs system "
+            "dependencies (OpenSSL, build tools), creates configuration directories, "
+            "and verifies the TLS certificate chain."
+        ),
+        "usage": "fluxion init [OPTIONS]",
+        "examples": ["fluxion init"],
+        "options": [
+            ("--trace",  "Show Python tracebacks on error"),
+        ],
+    },
+    "doctor": {
+        "category": "SYSTEM CONTROL",
+        "style": QUANTUM_MAGENTA,
+        "description": (
+            "Run a full diagnostic check on your Fluxion installation. Verifies Python version, "
+            "platform info, OpenSSL availability, all required and optional dependencies, "
+            "and configuration directory integrity."
+        ),
+        "usage": "fluxion doctor [OPTIONS]",
+        "examples": ["fluxion doctor", "fluxion doctor --json"],
+        "options": [
+            ("--json",  "JSON output"),
+        ],
+    },
+    "config": {
+        "category": "SYSTEM CONTROL",
+        "style": QUANTUM_MAGENTA,
+        "description": (
+            "View or modify Fluxion runtime configuration. Config is persisted to "
+            "~/.fluxion/config.json with dynamic type coercion for booleans, integers, and strings."
+        ),
+        "usage": "fluxion config [OPTIONS]",
+        "examples": [
+            "fluxion config",
+            "fluxion config --set max_connections=32",
+            "fluxion config --set proxy=socks5://localhost:1080",
+            "fluxion config --set enable_http3=false",
+            "fluxion config --set default_browser_profile=firefox",
+        ],
+        "options": [
+            ("--show / --no-show",   "Display current configuration (default: show)"),
+            ("--set KEY=VALUE",      "Set a configuration key to a new value"),
+        ],
+    },
+    "plugin": {
+        "category": "SYSTEM CONTROL",
+        "style": QUANTUM_MAGENTA,
+        "description": (
+            "Install, remove, and list Fluxion plugins. Plugins extend protocol support "
+            "(new URL schemes) or add custom CLI commands. "
+            "Package convention: fluxion-plugin-<name>."
+        ),
+        "usage": "fluxion plugin <action> [name] [OPTIONS]",
+        "examples": [
+            "fluxion plugin list",
+            "fluxion plugin install s3",
+            "fluxion plugin remove s3",
+            "fluxion plugin list --json",
+        ],
+        "options": [
+            ("install <name>",  "Install a plugin package"),
+            ("remove <name>",   "Remove an installed plugin"),
+            ("list",            "List all installed plugins"),
+            ("--json",          "JSON output for list action"),
+        ],
+    },
+    "version": {
+        "category": "SYSTEM CONTROL",
+        "style": QUANTUM_MAGENTA,
+        "description": "Display Fluxion version number, codename, and system build information.",
+        "usage": "fluxion version",
+        "examples": ["fluxion version"],
+        "options": [],
+    },
+    "help": {
+        "category": "SYSTEM CONTROL",
+        "style": QUANTUM_MAGENTA,
+        "description": (
+            "Display the command intelligence database. Pass a command name for detailed "
+            "reference documentation including all options and usage examples."
+        ),
+        "usage": "fluxion help [command]",
+        "examples": [
+            "fluxion help",
+            "fluxion help fetch",
+            "fluxion help probe",
+        ],
+        "options": [],
+    },
+}
+
+
+def _help_header(subtitle: str, uni: bool) -> Text:
+    """Render a sci-fi header for the help command."""
+    layout = detect_layout()
+    width = get_terminal_width()
+    inner = max(width - 4, 40)
+
+    if layout == LayoutMode.MINIMAL:
+        t = Text()
+        t.append("* FLUXION  ", style=f"bold {QUANTUM_BLUE}")
+        t.append(subtitle, style=QUANTUM_DIM)
+        return t
+
+    if layout in (LayoutMode.COMPACT, LayoutMode.STANDARD):
+        t = Text()
+        t.append(f"  {_icon()}  ", style=QUANTUM_BLUE)
+        t.append("FLUXION", style=f"bold {QUANTUM_BLUE}")
+        t.append(f"  v{__version__}", style=QUANTUM_DIM)
+        t.append(f"  \u2500  {subtitle}", style=QUANTUM_DIM)
+        return t
+
+    # FULL layout — double-line box
+    title_str = f"  {_icon()}  FLUXION  \u2500  {subtitle}"
+    sub_str = f"  Intelligent Network Command Engine  \u25c6  v{__version__} [{__codename__}]"
+    t = Text()
+    if uni:
+        bar = "\u2550" * inner
+        t.append(f"\u2554{bar}\u2557\n", style=QUANTUM_BLUE)
+        t.append("\u2551", style=QUANTUM_BLUE)
+        t.append(title_str.ljust(inner), style=f"bold {QUANTUM_BLUE}")
+        t.append("\u2551\n", style=QUANTUM_BLUE)
+        t.append("\u2551", style=QUANTUM_BLUE)
+        t.append(sub_str.ljust(inner), style=QUANTUM_DIM)
+        t.append("\u2551\n", style=QUANTUM_BLUE)
+        t.append(f"\u255a{bar}\u255d", style=QUANTUM_BLUE)
+    else:
+        bar = "=" * inner
+        t.append(f"+{bar}+\n", style=QUANTUM_BLUE)
+        t.append("|", style=QUANTUM_BLUE)
+        t.append(title_str.ljust(inner), style=f"bold {QUANTUM_BLUE}")
+        t.append("|\n", style=QUANTUM_BLUE)
+        t.append("|", style=QUANTUM_BLUE)
+        t.append(sub_str.ljust(inner), style=QUANTUM_DIM)
+        t.append("|\n", style=QUANTUM_BLUE)
+        t.append(f"+{bar}+", style=QUANTUM_BLUE)
+    return t
+
+
+def _sci_fi_footer(uni: bool) -> Text:
+    """Render the Quantum status footer line."""
+    sep = "\u25c6" if uni else "*"
+    t = Text()
+    t.append(f"\n  SYSTEM ONLINE {sep} PROTOCOLS NOMINAL {sep} QUANTUM ENGINES READY\n", style=f"dim {QUANTUM_BLUE}")
+    return t
+
+
+def render_help_panel(command_name: str | None = None) -> Group:
+    """Render the sci-fi Quantum Command Intelligence Database."""
+    uni = supports_unicode()
+
+    if command_name:
+        return _render_command_detail(command_name.lower(), uni)
+    return _render_help_overview(uni)
+
+
+def _render_help_overview(uni: bool) -> Group:
+    """Render the full command intelligence database overview."""
+    parts: list[object] = [
+        _help_header("QUANTUM COMMAND INTELLIGENCE DATABASE", uni),
+        Text(""),
+    ]
+
+    for cat in _HELP_CATEGORIES:
+        cat_icon = cat["icon_u"] if uni else cat["icon_a"]
+        style = str(cat["style"])
+        name = str(cat["name"])
+        cmds: list[tuple[str, str]] = cat["commands"]  # type: ignore[assignment]
+
+        cmd_table = Table.grid(padding=(0, 3))
+        cmd_table.add_column(min_width=10, style=f"bold {style}")
+        cmd_table.add_column(style="white")
+        for cmd_name, cmd_desc in cmds:
+            cmd_table.add_row(cmd_name, cmd_desc)
+
+        parts.append(
+            Panel(
+                cmd_table,
+                title=f"[{style}]{cat_icon}  {name}[/{style}]",
+                border_style=style,
+                padding=(1, 2),
+                title_align="left",
+            )
+        )
+
+    # Usage hints
+    hint_ic = "\u27a4" if uni else ">"
+    usage_table = Table.grid(padding=(0, 2))
+    usage_table.add_column(style=QUANTUM_DIM, min_width=3)
+    usage_table.add_column(style=f"bold {QUANTUM_BLUE}", min_width=38)
+    usage_table.add_column(style=QUANTUM_DIM)
+    usage_table.add_row(hint_ic, "fluxion <command> --help", "Native flag-level help for any command")
+    usage_table.add_row(hint_ic, "fluxion help <command>",   "Full reference with options and examples")
+
+    parts.append(Text(""))
+    parts.append(
+        Panel(
+            usage_table,
+            title=f"[{QUANTUM_DIM}]USAGE[/{QUANTUM_DIM}]",
+            border_style="dim",
+            padding=(1, 2),
+            title_align="left",
+        )
+    )
+    parts.append(_sci_fi_footer(uni))
+    return Group(*parts)
+
+
+def _render_command_detail(command_name: str, uni: bool) -> Group:
+    """Render detailed sci-fi help for a specific command."""
+    icon = _icon()
+    details = _COMMAND_DETAILS.get(command_name)
+    parts: list[object] = []
+
+    if not details:
+        parts.append(_help_header("COMMAND INTELLIGENCE DATABASE", uni))
+        parts.append(Text(""))
+        err = Text()
+        err.append(f"  {icon} ", style=QUANTUM_RED)
+        err.append("Unknown command: ", style=f"bold {QUANTUM_RED}")
+        err.append(command_name, style=QUANTUM_WHITE)
+        parts.append(err)
+        parts.append(Text(""))
+        hint = Text()
+        hint.append("  Run ", style=QUANTUM_DIM)
+        hint.append("fluxion help", style=f"bold {QUANTUM_BLUE}")
+        hint.append(" to see all available commands.", style=QUANTUM_DIM)
+        parts.append(hint)
+        parts.append(_sci_fi_footer(uni))
+        return Group(*parts)
+
+    style = str(details["style"])
+    category = str(details["category"])
+    description = str(details["description"])
+    usage = str(details["usage"])
+    examples: list[str] = details["examples"]  # type: ignore[assignment]
+    options: list[tuple[str, str]] = details["options"]  # type: ignore[assignment]
+
+    # Find category icon
+    cat_icon = ">" if not uni else "▶"
+    for cat in _HELP_CATEGORIES:
+        if cat["name"] == category:
+            cat_icon = str(cat["icon_u"]) if uni else str(cat["icon_a"])
+            break
+
+    sep = "\u2500" if uni else "--"
+    parts.append(_help_header(f"COMMAND REFERENCE  {sep}  {command_name.upper()}", uni))
+    parts.append(Text(""))
+
+    # Overview
+    ov = Table.grid(padding=(0, 2))
+    ov.add_column(style=QUANTUM_DIM, min_width=16)
+    ov.add_column(style="white")
+    ov.add_row("COMMAND",     Text(command_name, style=f"bold {style}"))
+    ov.add_row("CATEGORY",    Text(category, style=style))
+    ov.add_row("DESCRIPTION", Text(description, style="white"))
+    ov.add_row("USAGE",       Text(usage, style=f"bold {QUANTUM_BLUE}"))
+    parts.append(
+        Panel(
+            ov,
+            title=f"[{style}]{cat_icon}  OVERVIEW[/{style}]",
+            border_style=style,
+            padding=(1, 2),
+            title_align="left",
+        )
+    )
+
+    # Options
+    if options:
+        opt_ic = "\u27d0" if uni else "="
+        opt = Table.grid(padding=(0, 2))
+        opt.add_column(style=f"bold {QUANTUM_BLUE}", min_width=30)
+        opt.add_column(style="white")
+        for flag, desc in options:
+            opt.add_row(flag, desc)
+        parts.append(
+            Panel(
+                opt,
+                title=f"[{QUANTUM_DIM}]{opt_ic}  OPTIONS[/{QUANTUM_DIM}]",
+                border_style="dim",
+                padding=(1, 2),
+                title_align="left",
+            )
+        )
+
+    # Examples
+    if examples:
+        ex_ic = "\u27a4" if uni else "$"
+        ex_table = Table.grid(padding=(0, 1))
+        ex_table.add_column()
+        for ex in examples:
+            row = Text()
+            row.append(f"  {ex_ic}  ", style=QUANTUM_DIM)
+            row.append(ex, style=f"bold {QUANTUM_GREEN}")
+            ex_table.add_row(row)
+        play_ic = "\u25b6" if uni else ">"
+        parts.append(
+            Panel(
+                ex_table,
+                title=f"[{QUANTUM_GREEN}]{play_ic}  EXAMPLES[/{QUANTUM_GREEN}]",
+                border_style=QUANTUM_GREEN,
+                padding=(1, 2),
+                title_align="left",
+            )
+        )
+
+    parts.append(_sci_fi_footer(uni))
+    return Group(*parts)

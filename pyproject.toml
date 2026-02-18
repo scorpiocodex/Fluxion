@@ -9,7 +9,7 @@ description = "Fluxion — The Intelligent Network Command Engine"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
-authors = [{ name = "Fluxion Contributors" }]
+authors = [{ name = "ScorpioCodeX", email = "scorpiocodex0@gmail.com" }]
 keywords = ["networking", "http", "download", "cli", "http2", "http3", "quic"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -60,9 +60,9 @@ dev = [
 fluxion = "fluxion.cli.app:main"
 
 [project.urls]
-Homepage = "https://github.com/fluxion-net/fluxion"
-Repository = "https://github.com/fluxion-net/fluxion"
-Issues = "https://github.com/fluxion-net/fluxion/issues"
+Homepage = "https://github.com/scorpiocodex/Fluxion"
+Repository = "https://github.com/scorpiocodex/Fluxion"
+Issues = "https://github.com/scorpiocodex/Fluxion/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["fluxion"]
