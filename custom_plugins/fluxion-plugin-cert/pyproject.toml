@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fluxion-plugin-cert"
+version = "1.0.0"
+description = "Remote SSL/TLS Certificate Diagnostic Expansion for Fluxion"
+readme = "README.md"
+authors = [
+    { name = "ScorpioCodeX", email = "scorpiocodex0@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fluxion",  # Core dependency
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "cryptography>=41.0.0"
+]
+
+[project.entry-points."fluxion.plugins"]
+cert = "fluxion_plugin_cert.plugin:CertInspectorPlugin"

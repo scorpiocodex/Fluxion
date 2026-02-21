@@ -1,0 +1,51 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for Fluxion
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make Fluxion better? Describe it below.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Motivation
+      description: What problem does this feature solve? Why is it needed?
+      placeholder: I often need to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How would you like this to work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any other approaches you've thought about?
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Core Engine
+        - CLI / Commands
+        - Performance
+        - Security
+        - Protocols
+        - Plugins
+        - Terminal UI / HUD
+        - Stealth / Impersonation
+        - Platform Support
+        - Documentation
+        - Other
+    validations:
+      required: true

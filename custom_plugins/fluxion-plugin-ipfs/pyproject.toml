@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fluxion-plugin-ipfs"
+version = "0.1.0"
+description = "Native IPFS protocol support for Fluxion"
+dependencies = [
+    "httpx>=0.28.0",
+]
+
+[tool.setuptools]
+py-modules = ["fluxion_plugin_ipfs"]
+
+[project.entry-points."fluxion.plugins"]
+ipfs = "fluxion_plugin_ipfs:create_plugin"

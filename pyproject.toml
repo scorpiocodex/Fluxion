@@ -1,0 +1,99 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fluxion"
+version = "1.0.0"
+description = "Fluxion — The Intelligent Network Command Engine"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "ScorpioCodeX", email = "scorpiocodex0@gmail.com" }]
+keywords = ["networking", "http", "download", "cli", "http2", "http3", "quic"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: System :: Networking",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = [
+    "httpx[http2]>=0.27.0",
+    "aioquic>=1.2.0",
+    "rich>=13.9.0",
+    "typer>=0.12.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.5.0",
+    "anyio>=4.6.0",
+    "certifi>=2024.8.30",
+    "asyncssh>=2.17.0",
+    "aioftp>=0.22.0",
+    "aiofiles>=24.1.0",
+]
+
+[project.optional-dependencies]
+stealth = [
+    "rookiepy>=0.5.0",
+]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=5.0.0",
+    "pytest-mock>=3.14.0",
+    "respx>=0.21.0",
+    "mypy>=1.11.0",
+    "ruff>=0.6.0",
+    "black>=24.8.0",
+    "rookiepy>=0.5.0",
+]
+
+[project.scripts]
+fluxion = "fluxion.cli.app:main"
+
+[project.urls]
+Homepage = "https://github.com/scorpiocodex/Fluxion"
+Repository = "https://github.com/scorpiocodex/Fluxion"
+Issues = "https://github.com/scorpiocodex/Fluxion/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fluxion"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "SIM", "TCH"]
+
+[tool.black]
+target-version = ["py311"]
+line-length = 100
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=fluxion --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["fluxion"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 55
+show_missing = true

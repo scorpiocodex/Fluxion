@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fluxion-plugin-ping"
+version = "0.1.0"
+description = "Advanced TCP Ping & Measure Command for Fluxion"
+dependencies = [
+    "httpx>=0.28.0",
+]
+
+[tool.setuptools]
+py-modules = ["fluxion_plugin_ping"]
+
+[project.entry-points."fluxion.plugins"]
+ping = "fluxion_plugin_ping:create_plugin"

@@ -1,0 +1,84 @@
+# ── Python ────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# ── Distribution / Packaging ──────────────────────────────────────────────
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+wheels/
+*.whl
+pip-wheel-metadata/
+share/python-wheels/
+
+# ── Virtual Environments ───────────────────────────────────────────────────
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# ── Testing & Coverage ────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+nosetests.xml
+junit*.xml
+
+# ── Type Checkers ─────────────────────────────────────────────────────────
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyright/
+
+# ── Linters ───────────────────────────────────────────────────────────────
+.ruff_cache/
+
+# ── IDEs & Editors ────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Secrets / Config ──────────────────────────────────────────────────────
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+secrets/
+
+# ── Fluxion Runtime ───────────────────────────────────────────────────────
+*.fluxion-tmp
+
+# ── OS Artifacts ──────────────────────────────────────────────────────────
+.DS_Store
+._*
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Docs Build ────────────────────────────────────────────────────────────
+docs/_build/
+site/
+
+# ── Local Tools ───────────────────────────────────────────────────────────
+.claude/
+uv.lock
